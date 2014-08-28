@@ -2,9 +2,9 @@ TARGET = list_test
 
 CFLAGS = -g -Wall
 
-LDFLAGS = -g -Wall
+LDFLAGS = -g
 
-SOURCES = linked_list.c list_test.c
+SOURCES = list_test.c linked_list.c 
 
 all: $(TARGET)
 
