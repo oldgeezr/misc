@@ -24,8 +24,8 @@ void list_delete(list_t list)
 			conductor = conductor->next;
 			free(conductor->prev);
 		}
-		free(list);
 	}
+	free(list);
 }
 
 // Checked
@@ -86,13 +86,15 @@ void list_print(list_t list)
 	struct node* conductor;
 	conductor = list->tail;
 
-	while (conductor->next != NULL) {
-		printf("%d ", conductor->data);
-		conductor = conductor->next;
-	}
+	if (conductor != NULL) {
+		while (conductor->next != NULL) {
+			printf("%d ", conductor->data);
+			conductor = conductor->next;
+		}
 
-	printf("%d ", conductor->data);
-	printf("\n");
+		printf("%d ", conductor->data);
+		printf("\n");
+	}
 }
 
 long list_sum(list_t list)
@@ -132,7 +134,6 @@ int list_extract(list_t list, int index)
 {
 	struct node* conductor;
 	conductor = list->tail;
-	index++;
 
 	if (conductor != NULL && index <= list->length-1 && index >= 0) {
 
@@ -141,11 +142,15 @@ int list_extract(list_t list, int index)
 		while (i != index) {
 			conductor = conductor->next;
 			i++;
+			printf("I was here");
 		}
 
 		data = conductor->data;
 
-		if (conductor->prev == NULL) {
+		if (conductor->prev == NULL && conductor->next == NULL) {
+			list->tail = NULL;
+			list->head = NULL;
+		} else if (conductor->prev == NULL) {
 			conductor->next->prev = NULL;
 			list->tail = conductor->next;
 		} else if (conductor->next == NULL) {
